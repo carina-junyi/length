@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>長度單位換算</title>
+    <!-- 引入 Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* 定義字體為 Inter，如果不可用則回退到 sans-serif */
+        body {
+            font-family: "Inter", sans-serif;
+        }
+        /* 自定義 Markdown 樣式 */
+        .markdown-content h3 {
+            font-size: 1.75rem; /* text-3xl */
+            font-weight: 700; /* font-bold */
+            margin-bottom: 1rem;
+            color: #1f2937; /* gray-800 */
+            text-align: center;
+        }
+        .markdown-content h4 {
+            font-size: 1.5rem; /* text-2xl */
+            font-weight: 600; /* font-semibold */
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #374151; /* gray-700 */
+        }
+        .markdown-content p {
+            margin-bottom: 0.5rem;
+            line-height: 1.5;
+            color: #4b5563; /* gray-600 */
+        }
+        .markdown-content ul {
+            list-style-type: disc;
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .markdown-content li {
+            margin-bottom: 0.25rem;
+            color: #4b5563; /* gray-600 */
+        }
+        .markdown-content li strong {
+            color: #1f2937; /* gray-800 */
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-300 to-purple-400 min-h-screen flex items-center justify-center p-4">
+    <div class="bg-white p-8 rounded-2xl shadow-xl max-w-lg w-full transform transition-all duration-300 hover:scale-105">
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">長度單位換算小幫手</h1>
+
+        <div class="mb-6">
+            <label for="inputValue" class="block text-gray-700 text-lg font-semibold mb-2">輸入數值：</label>
+            <input
+                type="number"
+                id="inputValue"
+                value="1"
+                min="0"
+                step="0.01"
+                class="w-full p-3 border-2 border-blue-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg"
+                oninput="convertUnits()"
+            >
+        </div>
+
+        <div class="mb-6">
+            <label for="fromUnit" class="block text-gray-700 text-lg font-semibold mb-2">從：</label>
+            <select
+                id="fromUnit"
+                class="w-full p-3 border-2 border-green-400 rounded-lg bg-white text-lg cursor-pointer appearance-none focus:outline-none focus:ring-2 focus:ring-green-500"
+                onchange="convertUnits()"
+            >
+                <option value="km">公里 (km)</option>
+                <option value="m" selected>公尺 (m)</option>
+                <option value="cm">公分 (cm)</option>
+                <option value="mm">公釐 (mm)</option>
+            </select>
+        </div>
+
+        <div class="mb-6 flex justify-center">
+            <!-- 簡單的轉換箭頭圖標 -->
+            <svg class="w-10 h-10 text-gray-600 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+            </svg>
+        </div>
+
+        <div class="mb-8">
+            <label for="toUnit" class="block text-gray-700 text-lg font-semibold mb-2">換算成：</label>
+            <select
+                id="toUnit"
+                class="w-full p-3 border-2 border-red-400 rounded-lg bg-white text-lg cursor-pointer appearance-none focus:outline-none focus:ring-2 focus:ring-red-500"
+                onchange="convertUnits()"
+            >
+                <option value="km">公里 (km)</option>
+                <option value="m">公尺 (m)</option>
+                <option value="cm" selected>公分 (cm)</option>
+                <option value="mm">公釐 (mm)</option>
+            </select>
+        </div>
+
+        <div class="bg-gray-100 p-4 rounded-lg border border-gray-300 text-center mb-8">
+            <p class="text-gray-800 text-xl font-semibold mb-2">換算結果：</p>
+            <p id="result" class="text-blue-600 text-3xl font-bold">1 公尺 = 100 公分</p>
+        </div>
+
+        <!-- 嵌入說明文字區塊 -->
+        <div class="markdown-content bg-gray-50 p-6 rounded-lg border border-gray-200 mt-8">
+            <h3>歡迎來到長度單位換算小幫手！</h3>
+
+            <p>小朋友們，你們知道我們生活中有哪些東西可以用來測量長度嗎？像是尺、捲尺、布尺等等，它們都是用來量東西有多長、有多高、有多遠的好工具喔！</p>
+
+            <p>但是，你們有沒有發現，有時候我們會用到不同的「長度單位」呢？比如，量鉛筆的長度，我們會說「公分」；量教室的長度，我們會說「公尺」；量從家裡到學校的距離，我們可能會說「公里」！</p>
+
+            <p>這些單位雖然不一樣，但它們之間都有固定的關係，就像是變魔術一樣，可以互相變來變去喔！這個小幫手就是來教你們怎麼變這些「長度單位」的魔術！</p>
+
+            <h4>認識這些長度單位：</h4>
+            <ul>
+                <li><strong>公里 (km)</strong>：當我們要測量很長很長的距離時，像是城市與城市之間的距離，就會用到「公里」。
+                    <ul>
+                        <li>1 公里 = 1000 公尺</li>
+                    </ul>
+                </li>
+                <li><strong>公尺 (m)</strong>：公尺是很常用的單位，像是量教室的長度、跳遠的距離等等。
+                    <ul>
+                        <li>1 公尺 = 100 公分</li>
+                    </ul>
+                </li>
+                <li><strong>公分 (cm)</strong>：公分比公尺小，我們常常用它來量比較短的長度，像是鉛筆、書本的長度，或是身高。
+                    <ul>
+                        <li>1 公分 = 10 公釐</li>
+                    </ul>
+                </li>
+                <li><strong>公釐 (mm)</strong>：公釐是最小的常用長度單位，當我們要測量非常精細的長度時會用到，像是紙張的厚度、螺絲釘的大小。
+                    <ul>
+                        <li>1 公釐 = 0.1 公分</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h4>怎麼使用這個小幫手呢？</h4>
+            <ol>
+                <li><strong>輸入數值</strong>：在最上面的格子裡，輸入你想要換算的數字。</li>
+                <li><strong>選擇「從」的單位</strong>：選擇你這個數字原本是什麼單位（例如：公尺）。</li>
+                <li><strong>選擇「換算成」的單位</strong>：選擇你想要把這個數字變成什麼單位（例如：公分）。</li>
+                <li><strong>看結果</strong>：最下面的「換算結果」就會立刻告訴你答案囉！</li>
+            </ol>
+            <p>多試幾次，你就會發現這些長度單位的換算一點都不難，就像玩遊戲一樣有趣！</p>
+        </div>
+
+        <div class="mt-8 text-center text-sm text-gray-500">
+            <p>公里 (km) | 公尺 (m) | 公分 (cm) | 公釐 (mm)</p>
+            <p class="mt-2">學習長度單位換算，掌握數學基礎！</p>
+        </div>
+    </div>
+
+    <script>
+        /**
+         * 頁面載入完成後，執行初始換算
+         */
+        window.onload = function() {
+            convertUnits();
+        };
+
+        /**
+         * 執行單位換算的核心邏輯。
+         * 根據輸入的數值、起始單位和目標單位計算結果，並更新到頁面上。
+         */
+        function convertUnits() {
+            const inputValue = parseFloat(document.getElementById('inputValue').value);
+            const fromUnit = document.getElementById('fromUnit').value;
+            const toUnit = document.getElementById('toUnit').value;
+            const resultElement = document.getElementById('result');
+
+            // 檢查輸入是否為有效數字
+            if (isNaN(inputValue)) {
+                resultElement.textContent = "請輸入有效的數字！";
+                return;
+            }
+
+            let valueInMeters; // 將所有單位先轉換為公尺 (m) 以便於計算
+
+            // 將輸入值轉換為公尺
+            switch (fromUnit) {
+                case 'km':
+                    valueInMeters = inputValue * 1000; // 公里轉公尺
+                    break;
+                case 'm':
+                    valueInMeters = inputValue; // 公尺
+                    break;
+                case 'cm':
+                    valueInMeters = inputValue / 100; // 公分轉公尺
+                    break;
+                case 'mm':
+                    valueInMeters = inputValue / 1000; // 公釐轉公尺
+                    break;
+                default:
+                    valueInMeters = inputValue; // 預設為公尺
+            }
+
+            let convertedValue;
+            let displayUnit;
+
+            // 將公尺值轉換為目標單位
+            switch (toUnit) {
+                case 'km':
+                    convertedValue = valueInMeters / 1000; // 公尺轉公里
+                    displayUnit = '公里';
+                    break;
+                case 'm':
+                    convertedValue = valueInMeters; // 公尺
+                    displayUnit = '公尺';
+                    break;
+                case 'cm':
+                    convertedValue = valueInMeters * 100; // 公尺轉公分
+                    displayUnit = '公分';
+                    break;
+                case 'mm':
+                    convertedValue = valueInMeters * 1000; // 公尺轉公釐
+                    displayUnit = '公釐';
+                    break;
+                default:
+                    convertedValue = valueInMeters; // 預設為公尺
+                    displayUnit = '公尺';
+            }
+
+            // 格式化結果，保留兩位小數或顯示整數
+            const formattedResult = convertedValue % 1 === 0 ? convertedValue.toFixed(0) : convertedValue.toFixed(2);
+
+            // 更新結果顯示
+            let fromUnitDisplay;
+            switch (fromUnit) {
+                case 'km': fromUnitDisplay = '公里'; break;
+                case 'm': fromUnitDisplay = '公尺'; break;
+                case 'cm': fromUnitDisplay = '公分'; break;
+                case 'mm': fromUnitDisplay = '公釐'; break;
+            }
+
+            resultElement.textContent = `${inputValue} ${fromUnitDisplay} = ${formattedResult} ${displayUnit}`;
+        }
+    </script>
+</body>
+</html>
